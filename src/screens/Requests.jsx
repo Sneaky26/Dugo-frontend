@@ -25,7 +25,7 @@ function matchesFilters(request, filters) {
   return true
 }
 
-function Requests({ onNewRequest, onOpenDetail }) {
+function Requests({ onNewRequest, onOpenDetail, onOpenMatching }) {
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
   const [page, setPage] = useState(1)
 
@@ -218,7 +218,12 @@ function Requests({ onNewRequest, onOpenDetail }) {
                   >
                     View
                   </button>
-                  <button className="btn" type="button">
+                  <button
+                    id={`${request.id}-match-btn`}
+                    className="btn"
+                    type="button"
+                    onClick={() => onOpenMatching(request.requestId)}
+                  >
                     Match
                   </button>
                   <button className="btn" type="button">

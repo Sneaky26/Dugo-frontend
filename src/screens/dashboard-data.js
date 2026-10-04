@@ -172,7 +172,7 @@ const ACTIVITY_EVENTS = [
     id: 'activity-event-D-0042-accepted',
     event: 'donor-accepted',
     time: '08:31',
-    text: 'D-0042 Josefina Dela Cruz accepted the SMS invite',
+    text: 'D-0042 Josefina Dela Cruz accepted the in-app invite',
   },
   {
     id: 'activity-event-DON-1188-completed',
@@ -181,10 +181,10 @@ const ACTIVITY_EVENTS = [
     text: 'DON-1188 completed — 1 unit whole blood',
   },
   {
-    id: 'activity-event-SMS-4471-sent',
-    event: 'sms-sent',
+    id: 'activity-event-APP-4471-sent',
+    event: 'app-notification-sent',
     time: '07:20',
-    text: 'SMS sent to 12 donors for REQ-0002 (B+ platelets)',
+    text: 'In-app notification sent to 12 donors for REQ-0002 (B+ platelets)',
   },
   {
     id: 'activity-event-REQ-0002-created',

@@ -39,7 +39,7 @@ const DONOR_POOL = [
   { id: 'D-0784', name: 'Carlo Pimentel', masked: 'C*** P.', bloodType: 'O+', distance: '24.9 km' },
 ]
 
-const CHANNELS = ['sms', 'whatsapp', 'app']
+const CHANNELS = ['app']
 const CHANNEL_STATUS = ['delivered', 'delivered', 'pending', 'failed']
 
 /* Deterministic mix so renders are stable — index into the request order. */
@@ -161,16 +161,16 @@ const OVERRIDES = {
       },
     ],
     donors: [
-      { id: 'D-0042', name: 'Josefina Dela Cruz', masked: 'J*** D. C.', bloodType: 'O+', distance: '3.2 km', response: 'accepted', notifiedAt: '08:31', channel: 'sms', channelStatus: 'delivered', pledged: 1 },
-      { id: 'D-0117', name: 'Ramon Bautista', masked: 'R*** B.', bloodType: 'O-', distance: '5.8 km', response: 'pending', notifiedAt: '08:29', channel: 'sms', channelStatus: 'delivered', pledged: 0 },
-      { id: 'D-0233', name: 'KC Manalo', masked: 'K*** M.', bloodType: 'O+', distance: '8.1 km', response: 'no-reply', notifiedAt: '08:24', channel: 'whatsapp', channelStatus: 'pending', pledged: 0 },
-      { id: 'D-0308', name: 'Angelo Perez', masked: 'A*** P.', bloodType: 'A+', distance: '11.4 km', response: 'declined', notifiedAt: '08:20', channel: 'sms', channelStatus: 'failed', pledged: 0 },
+      { id: 'D-0042', name: 'Josefina Dela Cruz', masked: 'J*** D. C.', bloodType: 'O+', distance: '3.2 km', response: 'accepted', notifiedAt: '08:31', channel: 'app', channelStatus: 'delivered', pledged: 1 },
+      { id: 'D-0117', name: 'Ramon Bautista', masked: 'R*** B.', bloodType: 'O-', distance: '5.8 km', response: 'pending', notifiedAt: '08:29', channel: 'app', channelStatus: 'delivered', pledged: 0 },
+      { id: 'D-0233', name: 'KC Manalo', masked: 'K*** M.', bloodType: 'O+', distance: '8.1 km', response: 'no-reply', notifiedAt: '08:24', channel: 'app', channelStatus: 'pending', pledged: 0 },
+      { id: 'D-0308', name: 'Angelo Perez', masked: 'A*** P.', bloodType: 'A+', distance: '11.4 km', response: 'declined', notifiedAt: '08:20', channel: 'app', channelStatus: 'failed', pledged: 0 },
     ],
     log: [
       { id: 'reqdetail-log-request-created', event: 'request-created', time: '08:12', text: 'REQ-0001 created by Dr. Alona — R.M., O- red cells' },
       { id: 'reqdetail-log-matching-started', event: 'matching-started', time: '08:13', text: 'Auto-matching started for O- red cells' },
       { id: 'reqdetail-log-batch-reserved-B2409-O-', event: 'batch-reserved', time: '08:14', text: 'Batch B2409-O- reserved — 2 units' },
-      { id: 'reqdetail-log-sms-sent-12-donors', event: 'sms-sent', time: '08:20', text: 'SMS sent to 12 donors within 15 km' },
+      { id: 'reqdetail-log-app-notification-sent-12-donors', event: 'app-notification-sent', time: '08:20', text: 'In-app notification sent to 12 donors within 15 km' },
       { id: 'reqdetail-log-donor-accepted-D-0042', event: 'donor-accepted', time: '08:31', text: 'D-0042 Josefina Dela Cruz accepted' },
       { id: 'reqdetail-log-hold-placed-B2411-O+', event: 'hold-placed', time: '08:36', text: 'Hold placed on batch B2411-O+ — 2 units' },
     ],
@@ -190,7 +190,7 @@ function buildLog(request, batches, donors, override) {
     entries.push({ id: `reqdetail-log-batch-reserved-${batch.batch}`, event: 'batch-reserved', time: request.requestedAt, text: `Batch ${batch.batch} reserved — ${batch.units} units` })
   }
   if (donors.length > 0) {
-    entries.push({ id: `reqdetail-log-sms-sent-${donors.length}-donors`, event: 'sms-sent', time: donors[0].notifiedAt, text: `Notified ${donors.length} donors within 25 km` })
+    entries.push({ id: `reqdetail-log-app-notification-sent-${donors.length}-donors`, event: 'app-notification-sent', time: donors[0].notifiedAt, text: `In-app notification sent to ${donors.length} donors within 25 km` })
   }
   for (const donor of donors.filter((entry) => entry.response === 'accepted')) {
     entries.push({ id: `reqdetail-log-donor-accepted-${donor.id}`, event: 'donor-accepted', time: donor.notifiedAt, text: `${donor.id} ${donor.masked} accepted` })

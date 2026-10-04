@@ -23,9 +23,11 @@
  *   #page-body            hosts the active screen (see shell/screens.js),
  *                         e.g. #dashboard on nav-dashboard, #requests or #reqdetail
  *                         on nav-requests
- * #overlay-root           hosts the active screen's overlay (see shell/overlays.js),
- *                         e.g. #new-request-modal on nav-requests and
- *                         #reqdetail-cancel-modal while a request is open
+ * #overlay-root           hosts the active screen's overlay (see shell/overlays.js):
+ *                           nav-requests  #new-request-modal, or
+ *                                         #reqdetail-cancel-modal while a request is open
+ *                           nav-matching  #notify-preview-modal and
+ *                                         #fallback-confirm-modal
  * #toast-root             empty — toasts mount here
  *
  * Conventions: ids are kebab-case {screen}-{section}-{element}; repeated items
@@ -39,6 +41,8 @@ import NAV_ITEMS from './nav-items.js'
 import SCREENS, { RequestDetail } from './screens.js'
 import SCREEN_OVERLAYS from './overlays.js'
 import NewRequestModal from '../screens/NewRequestModal.jsx'
+import NotifyPreviewModal from '../screens/NotifyPreviewModal.jsx'
+import FallbackConfirmModal from '../screens/FallbackConfirmModal.jsx'
 import Sidebar from './Sidebar.jsx'
 import Topbar from './Topbar.jsx'
 import PageContent from './PageContent.jsx'
@@ -49,6 +53,12 @@ function AppShell() {
   /* Request Detail lives under #nav-requests but is its own view. */
   const [selectedRequestId, setSelectedRequestId] = useState(null)
   const [cancelOpen, setCancelOpen] = useState(false)
+  /* Donor Matching follows navigation: the requests table and Request Detail
+     pass their id, direct sidebar nav falls back to the flagship request. */
+  const [matchingRequestId, setMatchingRequestId] = useState('REQ-0001')
+  const [notifyOpen, setNotifyOpen] = useState(false)
+  const [notifyRecipientIds, setNotifyRecipientIds] = useState([])
+  const [fallbackOpen, setFallbackOpen] = useState(false)
   const activeItem = NAV_ITEMS.find((item) => item.id === activeNav)
 
   /* Cancelling is local to the detail view — the list and dashboard keep the
@@ -62,6 +72,20 @@ function AppShell() {
     setNewRequestOpen(false)
     setSelectedRequestId(null)
     setCancelOpen(false)
+    setNotifyOpen(false)
+    setFallbackOpen(false)
+    if (id === 'nav-matching') setMatchingRequestId('REQ-0001')
+  }
+
+  /* The requests table and Request Detail open matching for a specific id. */
+  function openMatching(requestId) {
+    setActiveNav('nav-matching')
+    setNewRequestOpen(false)
+    setSelectedRequestId(null)
+    setCancelOpen(false)
+    setNotifyOpen(false)
+    setFallbackOpen(false)
+    setMatchingRequestId(requestId)
   }
 
   /* Dashboard and requests-table entry points both land on the detail view. */
@@ -75,6 +99,17 @@ function AppShell() {
   const screenProps = {
     onOpenDetail: openDetail,
     onNewRequest: () => setNewRequestOpen(true),
+    onOpenMatching: openMatching,
+    ...(activeNav === 'nav-matching'
+      ? {
+          requestId: matchingRequestId,
+          onNotify: (recipientIds) => {
+            setNotifyRecipientIds(recipientIds)
+            setNotifyOpen(true)
+          },
+          onFallback: () => setFallbackOpen(true),
+        }
+      : {}),
   }
   const Screen = isDetail ? RequestDetail : SCREENS[activeNav]
   const CancelModal = SCREEN_OVERLAYS[activeNav]
@@ -88,13 +123,14 @@ function AppShell() {
       <PageContent
         title={isDetail ? 'Request Detail' : activeItem.pageTitle}
         screen={Screen}
+        screenKey={isDetail ? selectedRequestId : activeNav === 'nav-matching' ? matchingRequestId : activeNav}
         {...(isDetail
           ? {
               requestId: selectedRequestId,
               cancelledRequestId,
               onClose: () => setSelectedRequestId(null),
               onOpenCancel: () => setCancelOpen(true),
-              onOpenMatching: () => selectNav('nav-matching'),
+              onOpenMatching: () => openMatching(selectedRequestId),
             }
           : screenProps)}
       />
@@ -111,11 +147,27 @@ function AppShell() {
               setCancelOpen(false)
             }}
           />
-        ) : (
-          activeNav === 'nav-requests' && (
-            <NewRequestModal key="modal" open={newRequestOpen} onClose={() => setNewRequestOpen(false)} />
-          )
-        )}
+        ) : activeNav === 'nav-requests' ? (
+          <NewRequestModal key="modal" open={newRequestOpen} onClose={() => setNewRequestOpen(false)} />
+        ) : activeNav === 'nav-matching' ? (
+          <>
+            <NotifyPreviewModal
+              key="notify-preview-modal"
+              open={notifyOpen}
+              requestId={matchingRequestId}
+              recipientIds={notifyRecipientIds}
+              onClose={() => setNotifyOpen(false)}
+              onConfirm={() => setNotifyOpen(false)}
+            />
+            <FallbackConfirmModal
+              key="fallback-confirm-modal"
+              open={fallbackOpen}
+              requestId={matchingRequestId}
+              onClose={() => setFallbackOpen(false)}
+              onConfirm={() => setFallbackOpen(false)}
+            />
+          </>
+        ) : null}
       </div>
       <div id="toast-root" />
     </div>
