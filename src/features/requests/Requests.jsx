@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import data from './requests-data.js'
-import { paginate } from './pagination.js'
+import { paginate } from '@/shared/utils/paginate.js'
 
 const { COMPONENTS, STATUSES, PRIORITIES, BLOOD_TYPES, DEFAULT_FILTERS } = data
 

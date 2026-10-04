@@ -3,7 +3,7 @@
    working detail. NOW is a fixed instant — no Date.now() in render, which keeps
    hold countdowns reproducible between server and client. */
 
-import { compatibleStock, donorTypesFor, planText } from './blood-compat.js'
+import { compatibleStock, donorTypesFor, planText } from '@/shared/domain'
 import requests from './requests-data.js'
 
 const { REQUESTS, STOCK_BATCHES } = requests

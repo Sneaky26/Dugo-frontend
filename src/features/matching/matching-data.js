@@ -8,9 +8,9 @@
    is stored as a compact value per donation type: the string 'eligible', or a
    deferral reason string. buildMatching normalises both into { state, reason }. */
 
-import { donorTypesFor } from './blood-compat.js'
-import { buildDetail, NOW } from './request-detail-data.js'
-import requests from './requests-data.js'
+import { donorTypesFor } from '@/shared/domain'
+import { buildDetail, NOW } from '@/features/requests/request-detail-data.js'
+import requests from '@/features/requests/requests-data.js'
 
 const { COMPONENTS } = requests
 

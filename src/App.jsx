@@ -1,4 +1,4 @@
-import AppShell from './shell/AppShell.jsx'
+import AppShell from '@/app/AppShell.jsx'
 
 function App() {
   return <AppShell />

@@ -6,7 +6,7 @@ import {
   planText,
   sortedDonorTypes,
   suggestPriority,
-} from './blood-compat.js'
+} from '@/shared/domain'
 
 const { COMPONENTS, BLOOD_TYPES, SOURCES, STOCK_BATCHES } = data
 
