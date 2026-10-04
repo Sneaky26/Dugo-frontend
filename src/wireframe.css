@@ -1,0 +1,243 @@
+/* Dugo+ admin — structural wireframe stylesheet.
+   Structure only: flex/grid layout, 1px borders, black text on white,
+   one system font. No colors, shadows, radii, gradients or images. */
+
+:root {
+  --wf-border: #ccc;
+  --wf-text: #000;
+  --wf-bg: #fff;
+  --wf-font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--wf-font);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--wf-text);
+  background: var(--wf-bg);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ---------- app shell grid ---------- */
+
+#app-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+#sidebar {
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--wf-border);
+}
+
+#sidebar-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--wf-border);
+}
+
+#sidebar-logo-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#sidebar-logo-facility {
+  font-size: 12px;
+}
+
+#sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+}
+
+#nav-urgent-count {
+  margin-left: auto;
+}
+
+/* ---------- topbar ---------- */
+
+#topbar {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--wf-border);
+}
+
+#topbar-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#topbar-notifications {
+  gap: 6px;
+}
+
+#topbar-profile {
+  gap: 8px;
+}
+
+#topbar-profile-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+/* ---------- page content ---------- */
+
+#page-content {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#page-title {
+  margin: 0;
+  padding: 16px;
+  font-size: 20px;
+  border-bottom: 1px solid var(--wf-border);
+}
+
+#page-actions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 0;
+}
+
+#page-body {
+  flex: 1;
+  padding: 16px;
+}
+
+/* ---------- reusable parts (classes, not per-element styles) ---------- */
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  background: none;
+  border: 1px solid var(--wf-border);
+  cursor: pointer;
+}
+
+.btn[data-active='true'] {
+  font-weight: 700;
+  outline: 1px solid var(--wf-border);
+  outline-offset: -2px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid var(--wf-border);
+  padding: 6px 10px;
+}
+
+.field > label {
+  font-size: 12px;
+}
+
+.field > input,
+.field > select,
+.field > textarea {
+  padding: 2px;
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 12px;
+  border: 1px solid var(--wf-border);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border: 1px solid var(--wf-border);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--wf-border);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid var(--wf-border);
+}
+
+.tab {
+  padding: 6px 12px;
+  border: 1px solid var(--wf-border);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border: 1px solid var(--wf-border);
+  font-size: 12px;
+}
+
+/* ---------- helpers ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
