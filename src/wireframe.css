@@ -229,6 +229,131 @@ body {
   font-size: 12px;
 }
 
+/* ---------- layout primitives ---------- */
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row-between {
+  justify-content: space-between;
+}
+
+/* ---------- dashboard ---------- */
+
+#dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#dashboard-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+#dashboard-kpi-row > .card > [data-trend] {
+  font-size: 12px;
+}
+
+#dashboard-kpi-row [data-chart] {
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+#dashboard-overview-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+#urgent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#urgent-list article > .row:first-child {
+  flex-wrap: wrap;
+}
+
+#urgent-list [data-state='running'] {
+  font-size: 12px;
+}
+
+#urgent-list [data-notified] .chip {
+  width: 24px;
+  height: 12px;
+  padding: 0;
+}
+
+#dashboard-map-card [data-map] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  border: 1px solid var(--wf-border);
+  font-size: 12px;
+}
+
+#dashboard-map-legend {
+  flex-wrap: wrap;
+}
+
+#dashboard-critical-components > .row {
+  flex-wrap: wrap;
+}
+
+#dashboard-inventory-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+#dashboard-donation-trend-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab[data-active='true'] {
+  font-weight: 700;
+  outline: 1px solid var(--wf-border);
+  outline-offset: -2px;
+}
+
+#dashboard-donation-trend-chart,
+#dashboard-donations-by-type-chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  font-size: 12px;
+}
+
+#dashboard-donations-by-type-legend {
+  flex-wrap: wrap;
+}
+
+#activity-feed-list {
+  display: flex;
+  flex-direction: column;
+}
+
+#activity-feed-list > div {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--wf-border);
+}
+
+#activity-feed-list > div:last-child {
+  border-bottom: 0;
+}
+
 /* ---------- helpers ---------- */
 
 .sr-only {

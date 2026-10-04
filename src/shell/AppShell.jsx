@@ -20,7 +20,8 @@
  * #page-content           row 2, column
  *   #page-title           h1, follows the active nav item
  *   #page-actions         empty placeholder — screen action buttons mount here
- *   #page-body            empty placeholder — screen markup mounts here
+ *   #page-body            hosts the active screen (see shell/screens.js),
+ *                         e.g. #dashboard on nav-dashboard
  * #overlay-root           empty — drawers and modals mount here
  * #toast-root             empty — toasts mount here
  *
@@ -32,6 +33,7 @@
 
 import { useState } from 'react'
 import NAV_ITEMS from './nav-items.js'
+import SCREENS from './screens.js'
 import Sidebar from './Sidebar.jsx'
 import Topbar from './Topbar.jsx'
 import PageContent from './PageContent.jsx'
@@ -46,7 +48,7 @@ function AppShell() {
 
       <Topbar />
 
-      <PageContent title={activeItem.pageTitle} />
+      <PageContent title={activeItem.pageTitle} screen={SCREENS[activeNav]} />
 
       <div id="overlay-root" />
       <div id="toast-root" />
