@@ -21,8 +21,9 @@
  *   #page-title           h1, follows the active nav item
  *   #page-actions         empty placeholder — screen action buttons mount here
  *   #page-body            hosts the active screen (see shell/screens.js),
- *                         e.g. #dashboard on nav-dashboard
- * #overlay-root           empty — drawers and modals mount here
+ *                         e.g. #dashboard on nav-dashboard, #requests on nav-requests
+ * #overlay-root           hosts the active screen's overlay (see shell/overlays.js),
+ *                         e.g. #new-request-drawer on nav-requests
  * #toast-root             empty — toasts mount here
  *
  * Conventions: ids are kebab-case {screen}-{section}-{element}; repeated items
@@ -34,23 +35,41 @@
 import { useState } from 'react'
 import NAV_ITEMS from './nav-items.js'
 import SCREENS from './screens.js'
+import SCREEN_OVERLAYS from './overlays.js'
 import Sidebar from './Sidebar.jsx'
 import Topbar from './Topbar.jsx'
 import PageContent from './PageContent.jsx'
 
 function AppShell() {
   const [activeNav, setActiveNav] = useState('nav-dashboard')
+  const [drawerOpen, setDrawerOpen] = useState(false)
   const activeItem = NAV_ITEMS.find((item) => item.id === activeNav)
+  const Screen = SCREENS[activeNav]
+  const Overlay = SCREEN_OVERLAYS[activeNav]
+
+  /* Changing screen leaves no drawer hanging open. */
+  function selectNav(id) {
+    setActiveNav(id)
+    setDrawerOpen(false)
+  }
 
   return (
     <div id="app-shell">
-      <Sidebar items={NAV_ITEMS} activeNav={activeNav} onSelect={setActiveNav} />
+      <Sidebar items={NAV_ITEMS} activeNav={activeNav} onSelect={selectNav} />
 
       <Topbar />
 
-      <PageContent title={activeItem.pageTitle} screen={SCREENS[activeNav]} />
+      <PageContent
+        title={activeItem.pageTitle}
+        screen={Screen}
+        onNewRequest={() => setDrawerOpen(true)}
+      />
 
-      <div id="overlay-root" />
+      <div id="overlay-root">
+        {Overlay && (
+          <Overlay key={activeNav} open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+        )}
+      </div>
       <div id="toast-root" />
     </div>
   )

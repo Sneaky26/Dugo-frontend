@@ -354,6 +354,152 @@ body {
   border-bottom: 0;
 }
 
+/* ---------- blood requests screen ---------- */
+
+#requests {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#requests-toolbar {
+  gap: 16px;
+}
+
+#requests-search {
+  flex: 1;
+}
+
+#requests-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+  align-items: end;
+}
+
+#requests-filters > .btn {
+  justify-content: center;
+}
+
+#requests-filters button[disabled] {
+  opacity: 0.5;
+}
+
+#requests-filter-date-range > label > .row {
+  flex-wrap: wrap;
+}
+
+#requests-table td[data-priority='urgent'],
+#requests-table td[data-status='urgent'] {
+  font-weight: 700;
+}
+
+#requests-table td[data-blood-type] {
+  white-space: nowrap;
+}
+
+#requests-table td:last-child {
+  white-space: nowrap;
+}
+
+#requests-empty {
+  gap: 12px;
+  padding: 24px;
+}
+
+#requests-pagination {
+  gap: 16px;
+}
+
+#requests-pagination button[disabled] {
+  opacity: 0.5;
+}
+
+/* ---------- new request drawer ---------- */
+
+#new-request-drawer,
+#emergency-confirm-modal {
+  gap: 16px;
+  padding: 16px;
+}
+
+#new-request-drawer[data-state='closed'],
+#emergency-confirm-modal[data-state='closed'] {
+  display: none;
+}
+
+#new-request-drawer {
+  max-height: 100vh;
+  overflow: auto;
+}
+
+#new-request-drawer > section,
+#new-request-drawer > fieldset {
+  padding: 12px;
+  border: 1px solid var(--wf-border);
+}
+
+#nr-component-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.tab[data-selected='true'] {
+  font-weight: 700;
+  outline: 1px solid var(--wf-border);
+  outline-offset: -2px;
+}
+
+#nr-compat-chips {
+  flex-wrap: wrap;
+}
+
+#nr-stock-panel {
+  gap: 8px;
+}
+
+#nr-stock-panel > header {
+  font-weight: 700;
+}
+
+#nr-stock-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#nr-plan-text {
+  align-self: flex-start;
+}
+
+#nr-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+#nr-source {
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0;
+  border: 1px solid var(--wf-border);
+}
+
+#nr-priority {
+  gap: 12px;
+}
+
+#nr-summary-grid {
+  flex-wrap: wrap;
+}
+
+#nr-validation-errors {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 /* ---------- helpers ---------- */
 
 .sr-only {
