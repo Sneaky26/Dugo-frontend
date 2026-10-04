@@ -25,7 +25,7 @@ function matchesFilters(request, filters) {
   return true
 }
 
-function Requests({ onNewRequest }) {
+function Requests({ onNewRequest, onOpenDetail }) {
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
   const [page, setPage] = useState(1)
 
@@ -210,7 +210,12 @@ function Requests({ onNewRequest }) {
                 <td>{request.requiredBy}</td>
                 <td>{request.sourceLabel}</td>
                 <td id={`${request.id}-actions`} className="row">
-                  <button className="btn" type="button">
+                  <button
+                    id={`${request.id}-view-btn`}
+                    className="btn"
+                    type="button"
+                    onClick={() => onOpenDetail(request.requestId)}
+                  >
                     View
                   </button>
                   <button className="btn" type="button">

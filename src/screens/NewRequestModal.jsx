@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import data from './requests-data.js'
 import {
   compatibleStock,
@@ -25,7 +25,7 @@ function validate(form) {
   })
 }
 
-function NewRequestDrawer({ open, onClose }) {
+function NewRequestModal({ open, onClose }) {
   const [component, setComponent] = useState('rbc')
   const [bloodType, setBloodType] = useState('')
   const [form, setForm] = useState({
@@ -63,10 +63,32 @@ function NewRequestDrawer({ open, onClose }) {
     setForm((current) => ({ ...current, [field]: value }))
   }
 
-  function closeDrawer() {
+  const closeModal = useCallback(() => {
     setErrors([])
+    setConfirmOpen(false)
     onClose()
-  }
+  }, [onClose])
+
+  /* Escape unwinds one layer at a time: the emergency confirm modal first,
+     then the request form. The screen behind cannot scroll while open. */
+  useEffect(() => {
+    if (!open) return undefined
+
+    function onKeyDown(event) {
+      if (event.key !== 'Escape') return
+      if (confirmOpen) setConfirmOpen(false)
+      else closeModal()
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [open, confirmOpen, closeModal])
 
   function handleSubmit() {
     const found = validate(form)
@@ -76,15 +98,28 @@ function NewRequestDrawer({ open, onClose }) {
       setConfirmOpen(true)
       return
     }
-    closeDrawer()
+    closeModal()
   }
 
   return (
     <>
-      <div id="new-request-drawer" className="card" data-state={open ? 'open' : 'closed'}>
-        <header id="new-request-drawer-header" className="row row-between">
+      <div
+        id="new-request-backdrop"
+        aria-hidden="true"
+        data-state={open ? 'open' : 'closed'}
+        onClick={closeModal}
+      />
+      <div
+        id="new-request-modal"
+        className="card"
+        data-state={open ? 'open' : 'closed'}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="new-request-modal-header"
+      >
+        <header id="new-request-modal-header" className="row row-between">
           <span>New blood request</span>
-          <button id="new-request-drawer-close-btn" className="btn" type="button" onClick={closeDrawer}>
+          <button id="new-request-modal-close-btn" className="btn" type="button" onClick={closeModal}>
             Close
           </button>
         </header>
@@ -370,16 +405,25 @@ function NewRequestDrawer({ open, onClose }) {
           <button id="nr-submit-btn" className="btn" type="button" onClick={handleSubmit}>
             Submit request
           </button>
-          <button id="nr-cancel-btn" className="btn" type="button" onClick={closeDrawer}>
+          <button id="nr-cancel-btn" className="btn" type="button" onClick={closeModal}>
             Cancel
           </button>
         </div>
       </div>
 
       <div
+        id="emergency-confirm-backdrop"
+        aria-hidden="true"
+        data-state={confirmOpen ? 'open' : 'closed'}
+        onClick={() => setConfirmOpen(false)}
+      />
+      <div
         id="emergency-confirm-modal"
         className="card"
         data-state={confirmOpen ? 'open' : 'closed'}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="emergency-confirm-modal-title"
       >
         <header id="emergency-confirm-modal-title">
           Release emergency units without crossmatch?
@@ -395,7 +439,7 @@ function NewRequestDrawer({ open, onClose }) {
             data-status="critical"
             onClick={() => {
               setConfirmOpen(false)
-              closeDrawer()
+              closeModal()
             }}
           >
             Confirm emergency release
@@ -409,4 +453,4 @@ function NewRequestDrawer({ open, onClose }) {
   )
 }
 
-export default NewRequestDrawer
+export default NewRequestModal

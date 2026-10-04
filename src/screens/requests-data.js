@@ -26,6 +26,8 @@ const REQUESTS = [
     requiredBy: '14:00 today',
     source: 'hospital',
     sourceLabel: 'Tagaytay City Medical Center',
+    ward: 'ICU – 3rd Floor, Tagaytay City Medical Center',
+    contact: '+63 917 555 0142',
   },
   {
     id: 'request-row-REQ-0002',
@@ -41,6 +43,8 @@ const REQUESTS = [
     requiredBy: '12:00 today',
     source: 'drive',
     sourceLabel: 'Alfonso Red Cross drive, Nueva Ecija',
+    ward: 'ER – Resus, Tagaytay City Medical Center',
+    contact: '+63 917 555 0142',
   },
   {
     id: 'request-row-REQ-0003',
@@ -56,6 +60,8 @@ const REQUESTS = [
     requiredBy: '16:00 today',
     source: 'hospital',
     sourceLabel: 'Mother & Child Center, NICU',
+    ward: 'NICU – 2nd Floor, Mother & Child Center',
+    contact: '+63 918 555 0163',
   },
   {
     id: 'request-row-REQ-0004',
@@ -71,6 +77,8 @@ const REQUESTS = [
     requiredBy: 'Today 18:00',
     source: 'hospital',
     sourceLabel: "St. Mary's Hospital, OR 3",
+    ward: 'OR 3, St. Mary’s Hospital',
+    contact: '+63 917 555 0177',
   },
   {
     id: 'request-row-REQ-0005',
@@ -86,6 +94,8 @@ const REQUESTS = [
     requiredBy: 'Yesterday 17:00',
     source: 'drive',
     sourceLabel: 'Batangas City Red Cross drive',
+    ward: 'Drive collection point – Batangas City',
+    contact: '+63 919 555 0108',
   },
   {
     id: 'request-row-REQ-0006',
@@ -101,6 +111,8 @@ const REQUESTS = [
     requiredBy: 'Today 11:00',
     source: 'hospital',
     sourceLabel: 'St. Mary’s Hospital, Oncology',
+    ward: 'Oncology Day Care, St. Mary’s Hospital',
+    contact: '+63 917 555 0177',
   },
   {
     id: 'request-row-REQ-0007',
@@ -116,6 +128,8 @@ const REQUESTS = [
     requiredBy: 'Today 19:00',
     source: 'hospital',
     sourceLabel: 'Tagaytay City Medical Center, ER',
+    ward: 'ER – Observation, Tagaytay City Medical Center',
+    contact: '+63 917 555 0142',
   },
   {
     id: 'request-row-REQ-0008',
@@ -131,6 +145,8 @@ const REQUESTS = [
     requiredBy: 'Tomorrow 08:00',
     source: 'hospital',
     sourceLabel: 'St. Luke’s Medical Center, Burn Unit',
+    ward: 'Burn Unit, St. Luke’s Medical Center',
+    contact: '+63 920 555 0135',
   },
   {
     id: 'request-row-REQ-0009',
@@ -146,6 +162,8 @@ const REQUESTS = [
     requiredBy: 'Today 13:00',
     source: 'drive',
     sourceLabel: 'Cavite City Red Cross drive',
+    ward: 'Cavite City Red Cross drive – collection point',
+    contact: '+63 919 555 0121',
   },
   {
     id: 'request-row-REQ-0010',
@@ -161,6 +179,8 @@ const REQUESTS = [
     requiredBy: 'Today 10:00',
     source: 'hospital',
     sourceLabel: 'Tagaytay City Medical Center, OR 2',
+    ward: 'OR 2, Tagaytay City Medical Center',
+    contact: '+63 917 555 0142',
   },
   {
     id: 'request-row-REQ-0011',
@@ -176,6 +196,8 @@ const REQUESTS = [
     requiredBy: 'Today 15:00',
     source: 'hospital',
     sourceLabel: 'Mother & Child Center, Delivery Suite',
+    ward: 'Delivery Suite, Mother & Child Center',
+    contact: '+63 918 555 0163',
   },
   {
     id: 'request-row-REQ-0012',
@@ -191,6 +213,8 @@ const REQUESTS = [
     requiredBy: 'Monday 22:00',
     source: 'hospital',
     sourceLabel: 'St. Mary’s Hospital, Davao wing',
+    ward: 'Davao wing, St. Mary’s Hospital',
+    contact: '+63 917 555 0177',
   },
   {
     id: 'request-row-REQ-0013',
@@ -206,6 +230,8 @@ const REQUESTS = [
     requiredBy: 'Monday 18:00',
     source: 'hospital',
     sourceLabel: 'Batangas Medical Center, Dialysis',
+    ward: 'Dialysis Unit, Batangas Medical Center',
+    contact: '+63 916 555 0189',
   },
   {
     id: 'request-row-REQ-0014',
@@ -221,6 +247,8 @@ const REQUESTS = [
     requiredBy: 'Monday 18:00',
     source: 'drive',
     sourceLabel: 'Alfonso Red Cross drive, Nueva Ecija',
+    ward: 'Alfonso Red Cross drive – collection point',
+    contact: '+63 919 555 0156',
   },
   {
     id: 'request-row-REQ-0015',
@@ -236,6 +264,8 @@ const REQUESTS = [
     requiredBy: 'Tomorrow 09:00',
     source: 'hospital',
     sourceLabel: 'St. Luke’s Medical Center, Cardiac Care',
+    ward: 'Cardiac Care Unit, St. Luke’s Medical Center',
+    contact: '+63 920 555 0135',
   },
   {
     id: 'request-row-REQ-0016',
@@ -251,6 +281,8 @@ const REQUESTS = [
     requiredBy: 'Tomorrow 12:00',
     source: 'hospital',
     sourceLabel: 'Cavite General Hospital, ER',
+    ward: 'ER – Trauma, Cavite General Hospital',
+    contact: '+63 919 555 0121',
   },
   {
     id: 'request-row-REQ-0017',
@@ -266,6 +298,8 @@ const REQUESTS = [
     requiredBy: 'Today 20:00',
     source: 'drive',
     sourceLabel: 'Batangas City Red Cross drive',
+    ward: 'Batangas City Red Cross drive – collection point',
+    contact: '+63 919 555 0108',
   },
   {
     id: 'request-row-REQ-0018',
@@ -281,6 +315,8 @@ const REQUESTS = [
     requiredBy: 'Monday 14:00',
     source: 'hospital',
     sourceLabel: 'Tagaytay City Medical Center, Outpatient',
+    ward: 'Outpatient Laboratory, Tagaytay City Medical Center',
+    contact: '+63 917 555 0142',
   },
 ]
 

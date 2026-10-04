@@ -23,7 +23,7 @@ function KpiCard({ item }) {
   )
 }
 
-function UrgentItem({ request }) {
+function UrgentItem({ request, onOpenDetail }) {
   const segments = Array.from({ length: request.target }, (_, index) => index)
 
   return (
@@ -47,7 +47,12 @@ function UrgentItem({ request }) {
         <span id={`${request.id}-units`} className="pill">
           {request.units}
         </span>
-        <button id={`${request.id}-view-btn`} className="btn" type="button">
+        <button
+          id={`${request.id}-view-btn`}
+          className="btn"
+          type="button"
+          onClick={() => onOpenDetail(request.requestId)}
+        >
           View
         </button>
       </div>
@@ -95,7 +100,7 @@ function InventoryTile({ tile }) {
   )
 }
 
-function Dashboard() {
+function Dashboard({ onOpenDetail }) {
   const [period, setPeriod] = useState('weekly')
   const trend = data.DONATION_TRENDS[period]
 
@@ -126,7 +131,7 @@ function Dashboard() {
 
           <div id="urgent-list">
             {data.URGENT_REQUESTS.map((request) => (
-              <UrgentItem key={request.id} request={request} />
+              <UrgentItem key={request.id} request={request} onOpenDetail={onOpenDetail} />
             ))}
           </div>
         </section>

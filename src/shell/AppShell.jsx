@@ -21,9 +21,11 @@
  *   #page-title           h1, follows the active nav item
  *   #page-actions         empty placeholder — screen action buttons mount here
  *   #page-body            hosts the active screen (see shell/screens.js),
- *                         e.g. #dashboard on nav-dashboard, #requests on nav-requests
+ *                         e.g. #dashboard on nav-dashboard, #requests or #reqdetail
+ *                         on nav-requests
  * #overlay-root           hosts the active screen's overlay (see shell/overlays.js),
- *                         e.g. #new-request-drawer on nav-requests
+ *                         e.g. #new-request-modal on nav-requests and
+ *                         #reqdetail-cancel-modal while a request is open
  * #toast-root             empty — toasts mount here
  *
  * Conventions: ids are kebab-case {screen}-{section}-{element}; repeated items
@@ -34,24 +36,48 @@
 
 import { useState } from 'react'
 import NAV_ITEMS from './nav-items.js'
-import SCREENS from './screens.js'
+import SCREENS, { RequestDetail } from './screens.js'
 import SCREEN_OVERLAYS from './overlays.js'
+import NewRequestModal from '../screens/NewRequestModal.jsx'
 import Sidebar from './Sidebar.jsx'
 import Topbar from './Topbar.jsx'
 import PageContent from './PageContent.jsx'
 
 function AppShell() {
   const [activeNav, setActiveNav] = useState('nav-dashboard')
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [newRequestOpen, setNewRequestOpen] = useState(false)
+  /* Request Detail lives under #nav-requests but is its own view. */
+  const [selectedRequestId, setSelectedRequestId] = useState(null)
+  const [cancelOpen, setCancelOpen] = useState(false)
   const activeItem = NAV_ITEMS.find((item) => item.id === activeNav)
-  const Screen = SCREENS[activeNav]
-  const Overlay = SCREEN_OVERLAYS[activeNav]
 
-  /* Changing screen leaves no drawer hanging open. */
+  /* Cancelling is local to the detail view — the list and dashboard keep the
+     original status until a reload. */
+  const [cancelledRequestId, setCancelledRequestId] = useState(null)
+  const isDetail = activeNav === 'nav-requests' && selectedRequestId !== null
+
+  /* Changing screen leaves no modal hanging open. */
   function selectNav(id) {
     setActiveNav(id)
-    setDrawerOpen(false)
+    setNewRequestOpen(false)
+    setSelectedRequestId(null)
+    setCancelOpen(false)
   }
+
+  /* Dashboard and requests-table entry points both land on the detail view. */
+  function openDetail(requestId) {
+    setActiveNav('nav-requests')
+    setNewRequestOpen(false)
+    setSelectedRequestId(requestId)
+    setCancelOpen(false)
+  }
+
+  const screenProps = {
+    onOpenDetail: openDetail,
+    onNewRequest: () => setNewRequestOpen(true),
+  }
+  const Screen = isDetail ? RequestDetail : SCREENS[activeNav]
+  const CancelModal = SCREEN_OVERLAYS[activeNav]
 
   return (
     <div id="app-shell">
@@ -60,14 +86,35 @@ function AppShell() {
       <Topbar />
 
       <PageContent
-        title={activeItem.pageTitle}
+        title={isDetail ? 'Request Detail' : activeItem.pageTitle}
         screen={Screen}
-        onNewRequest={() => setDrawerOpen(true)}
+        {...(isDetail
+          ? {
+              requestId: selectedRequestId,
+              cancelledRequestId,
+              onClose: () => setSelectedRequestId(null),
+              onOpenCancel: () => setCancelOpen(true),
+              onOpenMatching: () => selectNav('nav-matching'),
+            }
+          : screenProps)}
       />
 
       <div id="overlay-root">
-        {Overlay && (
-          <Overlay key={activeNav} open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+        {isDetail ? (
+          <CancelModal
+            key="reqdetail-cancel-modal"
+            open={cancelOpen}
+            requestId={selectedRequestId}
+            onClose={() => setCancelOpen(false)}
+            onConfirm={() => {
+              setCancelledRequestId(selectedRequestId)
+              setCancelOpen(false)
+            }}
+          />
+        ) : (
+          activeNav === 'nav-requests' && (
+            <NewRequestModal key="modal" open={newRequestOpen} onClose={() => setNewRequestOpen(false)} />
+          )
         )}
       </div>
       <div id="toast-root" />

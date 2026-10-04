@@ -415,26 +415,62 @@ body {
   opacity: 0.5;
 }
 
-/* ---------- new request drawer ---------- */
+/* ---------- new request modal ---------- */
 
-#new-request-drawer,
-#emergency-confirm-modal {
-  gap: 16px;
-  padding: 16px;
+#new-request-backdrop,
+#emergency-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  /* The one non-structural rule in the sheet: a scrim has to read as a scrim. */
+  background: rgba(0, 0, 0, 0.4);
 }
 
-#new-request-drawer[data-state='closed'],
+#new-request-backdrop {
+  z-index: 20;
+}
+
+#emergency-confirm-backdrop {
+  z-index: 29;
+}
+
+#new-request-backdrop[data-state='closed'],
+#emergency-confirm-backdrop[data-state='closed'] {
+  display: none;
+}
+
+#new-request-modal,
+#emergency-confirm-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px;
+  background: var(--wf-bg);
+  border: 1px solid var(--wf-border);
+  gap: 16px;
+}
+
+#new-request-modal {
+  z-index: 21;
+  width: min(960px, calc(100vw - 32px));
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+}
+
+#emergency-confirm-modal {
+  z-index: 30;
+  width: min(480px, calc(100vw - 32px));
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+}
+
+#new-request-modal[data-state='closed'],
 #emergency-confirm-modal[data-state='closed'] {
   display: none;
 }
 
-#new-request-drawer {
-  max-height: 100vh;
-  overflow: auto;
-}
-
-#new-request-drawer > section,
-#new-request-drawer > fieldset {
+#new-request-modal > section,
+#new-request-modal > fieldset {
   padding: 12px;
   border: 1px solid var(--wf-border);
 }
@@ -497,6 +533,158 @@ body {
 #nr-validation-errors {
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ---------- request detail ---------- */
+
+#reqdetail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#reqdetail > .card,
+#reqdetail > nav,
+#reqdetail > button {
+  padding: 12px;
+}
+
+#reqdetail-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#reqdetail-header .row {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#reqdetail-header-actions {
+  gap: 8px;
+  border-top: 1px solid var(--wf-border);
+  padding-top: 8px;
+}
+
+#reqdetail-stepper {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#reqdetail-stepper .chip {
+  border: 1px solid var(--wf-border);
+}
+
+#reqdetail-stepper [data-step-state='current'] {
+  font-weight: 700;
+  outline: 1px solid var(--wf-border);
+  outline-offset: -2px;
+}
+
+#reqdetail-stepper [data-step-state='todo'] {
+  opacity: 0.5;
+}
+
+#reqdetail-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#reqdetail-plan-title {
+  font-weight: 700;
+}
+
+#reqdetail-plan-summary {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#reqdetail-plan[data-state='outstanding'] #reqdetail-plan-still-needed[data-state='needed'] {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+#reqdetail-reserved-batches,
+#reqdetail-donor-responses,
+#reqdetail-activity-log {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#reqdetail-reserved-batches > header,
+#reqdetail-donor-responses > header,
+#reqdetail-activity-log > header {
+  font-weight: 700;
+}
+
+#reqdetail-reserved-batches-table td:last-child,
+#reqdetail-donor-responses-table td:last-child {
+  display: flex;
+  gap: 4px;
+}
+
+#reqdetail-donor-responses-table td[data-response='accepted'] {
+  font-weight: 700;
+}
+
+#reqdetail-donor-responses-table td[data-response='declined'],
+#reqdetail-donor-responses-table td[data-response='no-reply'] {
+  opacity: 0.6;
+}
+
+#reqdetail-open-matching-btn {
+  align-self: flex-start;
+  display: flex;
+  gap: 8px;
+}
+
+#reqdetail-activity-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#reqdetail-activity-log-list > div {
+  border-bottom: 1px solid var(--wf-border);
+  padding-bottom: 4px;
+}
+
+#reqdetail-activity-log-list > div:last-child {
+  border-bottom: 0;
+}
+
+/* ---------- request cancel modal ---------- */
+
+#reqdetail-cancel-modal {
+  gap: 16px;
+  padding: 16px;
+  max-width: 480px;
+}
+
+#reqdetail-cancel-modal[data-state='closed'] {
+  display: none;
+}
+
+#reqdetail-cancel-impact {
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--wf-border);
+}
+
+#reqdetail-cancel-impact > header {
+  font-weight: 700;
+}
+
+#reqdetail-cancel-impact ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+#reqdetail-cancel-errors {
+  flex-direction: row;
   gap: 8px;
 }
 
